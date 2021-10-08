@@ -1,6 +1,8 @@
-import { clienteService} from "../service/cliente-service.js"
+import {
+    clienteService
+} from "../service/cliente-service.js"
 
-const criaNovaLinha = (nome, email) => {
+const criaNovaLinha = (nome, email, id) => {
     const linhaNovoCliente = document.createElement('tr')
     const conteudo = `
         <td class="td" data-td>${nome}</td>
@@ -13,17 +15,30 @@ const criaNovaLinha = (nome, email) => {
                     </td> 
                     `
     linhaNovoCliente.innerHTML = conteudo
+    linhaNovoCliente.dataset.id = id
+
     return linhaNovoCliente
 }
 
 //percorre o dom pra buscar tabela
 const tabela = document.querySelector('[data-tabela]')
 
+tabela.addEventListener("click", (evento) => {
+    let ehBotaoDeletar = evento.target.className === 'botao-simples botao-simples--excluir'
+    if (ehBotaoDeletar) {
+        const linhaCliente = evento.target.closest('[data-id]')
+        let id = linhaCliente.dataset.id
+        clienteService.removeCliente(id)
+        .then(()=>{
+            linhaCliente.remove()
+        })
+    }
+})
 
 //recebe dados do API e mostra resposta
 clienteService.listaClientes()
 then(data => {
     data.forEach(elemento => {
-        tabela.appendChild(criaNovaLinha(elemento.nome, elemento.email))
+        tabela.appendChild(criaNovaLinha(elemento.nome, elemento.email, elemento.id))
     })
 })
