@@ -10,3 +10,7 @@ Projeto feito durante curso da Alura: *JS na web - crud com JavaScript assíncro
 - Entenda como utilizar o método fetch para consumir dados de uma API
 - Manipule os verbos HTTP através do método fetch
 - Aprenda como funcionam as promises no JavaScript
+
+Página do curso: https://cursos.alura.com.br/course/javascript-crud-assincrono
+
+
