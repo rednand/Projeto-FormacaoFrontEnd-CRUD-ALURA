@@ -23,22 +23,35 @@ const criaNovaLinha = (nome, email, id) => {
 //percorre o dom pra buscar tabela
 const tabela = document.querySelector('[data-tabela]')
 
-tabela.addEventListener("click", (evento) => {
+tabela.addEventListener("click", async (evento) => { //indica uma funcao assincrona
     let ehBotaoDeletar = evento.target.className === 'botao-simples botao-simples--excluir'
     if (ehBotaoDeletar) {
-        const linhaCliente = evento.target.closest('[data-id]')
-        let id = linhaCliente.dataset.id
-        clienteService.removeCliente(id)
-        .then(()=>{
+        try {
+            const linhaCliente = evento.target.closest('[data-id]')
+            let id = linhaCliente.dataset.id
+            await clienteService.removeCliente(id)
             linhaCliente.remove()
-        })
+        } catch (erro) {
+            console.log(erro)
+            window.location.href = "../telas/erro.html"
+        }
     }
 })
 
-//recebe dados do API e mostra resposta
-clienteService.listaClientes()
-then(data => {
-    data.forEach(elemento => {
-        tabela.appendChild(criaNovaLinha(elemento.nome, elemento.email, elemento.id))
-    })
-})
+const render = async () => {
+    try {
+        //recebe dados do API e mostra resposta
+        const listaClientes = await clienteService.listaClientes()
+        listaClientes.forEach(elemento => {
+            tabela.appendChild(criaNovaLinha(elemento.nome, elemento.email, elemento.id))
+
+        })
+    } catch (erro) {
+        console.log(erro)
+        window.location.href = "../telas/erro.html"
+    }
+
+
+}
+
+render()
