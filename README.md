@@ -13,4 +13,9 @@ Projeto feito durante curso da Alura: *JS na web - crud com JavaScript assíncro
 
 Página do curso: https://cursos.alura.com.br/course/javascript-crud-assincrono
 
+### Para rodas o aplicativo:
 
+abrir a pasta admin no vscode e rodar o json server:
+
+json-server --watch db.json
+Rodar: browser-sync start --server --file . --host --port 5000 --startPath admin/telas/lista_cliente.html
